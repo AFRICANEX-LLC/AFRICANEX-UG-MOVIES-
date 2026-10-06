@@ -1,0 +1,1612 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AFRICANEX UG Movies</title>
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #050505;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   MOVIE SECTION
+========================= */
+
+.movies-section {
+    min-height: 100vh;
+    padding: 55px 20px 80px;
+
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(245,196,0,.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(255,255,255,.05),
+            transparent 25%
+        ),
+        #050505;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.movies-container {
+    max-width: 1250px;
+    margin: auto;
+}
+
+.movies-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.brand-label {
+    color: #f5c400;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.movies-header h1 {
+    margin: 8px 0;
+    font-size: clamp(30px, 5vw, 48px);
+}
+
+.movies-header p {
+    margin: 0;
+    color: #888;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box {
+    width: 320px;
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px 15px 45px;
+
+    border-radius: 30px;
+    border: 1px solid #292929;
+
+    background: #111;
+    color: white;
+
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #f5c400;
+
+    box-shadow:
+        0 0 20px
+        rgba(245,196,0,.12);
+}
+
+.search-icon {
+    position: absolute;
+    left: 17px;
+    top: 14px;
+}
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.categories {
+    display: flex;
+    gap: 10px;
+
+    overflow-x: auto;
+
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+
+    scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.category {
+    flex: 0 0 auto;
+
+    padding: 10px 20px;
+
+    border-radius: 30px;
+
+    border: 1px solid #292929;
+
+    background: #111;
+    color: #aaa;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.category:hover {
+    color: white;
+    border-color: #555;
+}
+
+.category.active {
+    background: #f5c400;
+    color: #000;
+    border-color: #f5c400;
+
+    box-shadow:
+        0 8px 25px
+        rgba(245,196,0,.15);
+}
+
+/* =========================
+   MOVIE GRID
+========================= */
+
+.movie-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0,1fr));
+
+    gap: 18px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.movie-card {
+    background: #101010;
+
+    border: 1px solid #202020;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+
+    transition:
+        transform .3s,
+        border-color .3s,
+        box-shadow .3s;
+}
+
+.movie-card:hover {
+    transform: translateY(-7px);
+
+    border-color:
+        rgba(245,196,0,.6);
+
+    box-shadow:
+        0 20px 45px
+        rgba(0,0,0,.6);
+}
+
+/* =========================
+   POSTER
+========================= */
+
+.poster {
+    position: relative;
+
+    height: 310px;
+
+    background: #151515;
+
+    overflow: hidden;
+}
+
+.poster img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .5s;
+}
+
+.movie-card:hover .poster img {
+    transform: scale(1.07);
+}
+
+/* cinematic overlay */
+
+.poster::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.85),
+            transparent 55%
+        );
+}
+
+/* =========================
+   RATING
+========================= */
+
+.rating {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    z-index: 3;
+
+    padding: 6px 9px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(0,0,0,.75);
+
+    backdrop-filter: blur(8px);
+
+    color: #ffd633;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* =========================
+   MOVIE INFO
+========================= */
+
+.movie-info {
+    padding: 14px;
+}
+
+.movie-info h3 {
+    margin: 0;
+
+    font-size: 15px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.movie-meta {
+    margin: 7px 0 12px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.watch-btn {
+    width: 100%;
+
+    border: none;
+
+    padding: 11px;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5c400,
+            #ffdf45
+        );
+
+    color: #050505;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.watch-btn:hover {
+    transform: scale(1.03);
+
+    box-shadow:
+        0 8px 20px
+        rgba(245,196,0,.2);
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    color: #999;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+
+    border: 3px solid #222;
+
+    border-top-color: #f5c400;
+
+    border-radius: 50%;
+
+    animation:
+        spin .8s linear infinite;
+
+    margin:
+        0 auto 15px;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    color: #aaa;
+}
+
+.error strong {
+    display: block;
+
+    color: white;
+
+    font-size: 20px;
+
+    margin-bottom: 10px;
+}
+
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 70px;
+
+    color: #777;
+}
+
+.no-results strong {
+    display: block;
+
+    color: white;
+
+    font-size: 20px;
+
+    margin-bottom: 7px;
+}
+
+/* =========================
+   TMDB CREDIT
+========================= */
+
+.tmdb-credit {
+    max-width: 1250px;
+
+    margin: 35px auto 0;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #191919;
+
+    color: #666;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+.tmdb-credit a {
+    color: #999;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:1100px) {
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px) {
+
+    .movies-section {
+        padding:
+            40px 12px 60px;
+    }
+
+    .movies-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap: 11px;
+    }
+
+    .poster {
+        height: 240px;
+    }
+
+    .movie-info {
+        padding: 10px;
+    }
+
+    .movie-info h3 {
+        font-size: 13px;
+    }
+
+    .movie-meta {
+        font-size: 10px;
+    }
+
+    .watch-btn {
+        padding: 10px 5px;
+        font-size: 10px;
+    }
+
+}
+
+/* =========================
+   SMALL PHONE
+========================= */
+
+@media(max-width:390px) {
+
+    .poster {
+        height: 205px;
+    }
+
+}
+
+
+.translated-inline { margin:0 0 28px; padding:20px; border:1px solid #202020; border-radius:16px; background:linear-gradient(180deg,#0d0d0d,#090909); }
+.translated-inline-header { margin-bottom:14px; }
+.translated-inline-header .section-label { display:block; color:#f5c400; font-size:12px; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+.translated-inline-header h2 { margin:4px 0; font-size:clamp(24px,4vw,34px); font-weight:900; }
+.translated-inline-header p { margin:0; color:#888; font-size:13px; }
+.translated-inline .categories { margin-bottom:0; }
+/* =========================
+   TRANSLATED MOVIES POPUP
+========================= */
+.translated-trigger-wrap{margin:0 0 24px;}
+.translated-trigger{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:16px 20px;border:1px solid #292929;border-radius:14px;background:linear-gradient(135deg,#111,#0b0b0b);color:#fff;cursor:pointer;transition:.25s;}
+.translated-trigger:hover{border-color:#f5c400;transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35);}
+.translated-trigger span{font-size:17px;font-weight:900;color:#f5c400;}
+.translated-trigger small{margin-left:auto;color:#777;font-size:12px;}
+.translated-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:15px;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);}
+.translated-modal.show{display:flex;}
+.translated-modal-box{width:min(1200px,100%);max-height:92vh;overflow:auto;background:#070707;border:1px solid #292929;border-radius:18px;padding:20px;box-shadow:0 30px 100px rgba(0,0,0,.85);}
+.translated-modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:15px;}
+.translated-modal-head h2{margin:5px 0;font-size:28px;}
+.translated-modal-head p{margin:0;color:#777;}
+.translated-close{width:42px;height:42px;border:1px solid #333;border-radius:50%;background:#151515;color:#fff;font-size:18px;cursor:pointer;}
+.translated-close:hover{background:#f5c400;color:#000;}
+.translated-language-buttons{margin-bottom:20px;}
+.translated-grid{padding-bottom:5px;}
+@media(max-width:700px){.translated-trigger span{font-size:15px}.translated-trigger small{font-size:10px}.translated-modal{padding:8px}.translated-modal-box{max-height:95vh;padding:13px;border-radius:12px}.translated-modal-head h2{font-size:22px}.translated-modal-head p{font-size:12px}.translated-close{width:28px;height:28px;font-size:20px;}}
+
+/* =========================
+   VIDEO PLAYER MODAL
+========================= */
+.player-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.92);backdrop-filter:blur(12px)}
+.player-modal.show{display:flex}
+.player-box{width:min(1000px,100%);background:#0d0d0d;border:1px solid #292929;border-radius:16px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.8)}
+.player-top{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 18px;border-bottom:1px solid #202020}
+.player-title{margin:0;font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.close-player{width:38px;height:38px;border:1px solid #333;border-radius:50%;background:#171717;color:#fff;font-size:20px;cursor:pointer}
+.close-player:hover{background:#f5c400;color:#000}
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+.video-wrap iframe,.video-wrap video{width:100%;height:100%;border:0;display:block}
+.player-message{min-height:300px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:#aaa}
+.player-message strong{display:block;color:#fff;font-size:20px;margin-bottom:8px}
+@media(max-width:700px){.player-modal{padding:10px}.player-box{border-radius:10px}.player-title{font-size:13px}}
+
+
+.watch-options{margin-top:14px;padding:14px;border:1px solid #242424;border-radius:14px;background:#0b0b0b}
+.watch-options h4{margin:0 0 10px;color:#f5c400;font-size:14px}
+.watch-source{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #1d1d1d}
+.watch-source:last-child{border-bottom:0}
+.watch-source span{font-size:13px;color:#ddd}
+.watch-link{display:inline-flex;align-items:center;justify-content:center;padding:7px 11px;border-radius:9px;background:#f5c400;color:#050505;text-decoration:none;font-weight:800;font-size:12px}
+.watch-loading,.watch-empty,.watch-error{font-size:12px;color:#888;padding:6px 0}
+
+</style>
+
+
+<style>
+/* AFRICANEX UG — SMALL NON-BLOCKING FLOATING WIDGETS */
+.africanex-coming-soon,.africanex-whatsapp,.africanex-donation{z-index:8888}
+.africanex-coming-soon{
+ position:fixed;right:14px;bottom:14px;display:flex;align-items:center;gap:7px;
+ padding:8px 11px;border:1px solid rgba(245,196,0,.55);border-radius:999px;
+ background:rgba(10,10,10,.78);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.4);
+ backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:afFloat 3s ease-in-out infinite;
+ pointer-events:none;transition:opacity .35s ease,visibility .35s ease;
+}
+.africanex-coming-soon .ac-dot{width:7px;height:7px;border-radius:50%;background:#f5c400;box-shadow:0 0 8px #f5c400}
+.africanex-coming-soon .ac-text{display:flex;flex-direction:column;line-height:1.05}
+.africanex-coming-soon .ac-small{color:#aaa;font-size:7px;font-weight:700;letter-spacing:1.2px}
+.africanex-coming-soon .ac-title{color:#f5c400;font-size:10px;font-weight:900;letter-spacing:.5px}
+.africanex-coming-soon .ac-phones{margin-top:3px;color:#aaa;font-size:6.5px;white-space:nowrap}
+@keyframes afFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+.africanex-whatsapp{
+ position:fixed;right:14px;bottom:66px;width:43px;height:43px;display:flex;align-items:center;justify-content:center;
+ border-radius:50%;background:rgba(37,211,102,.88);color:#fff;text-decoration:none;font-size:21px;
+ box-shadow:0 7px 20px rgba(0,0,0,.35);transition:transform .2s ease,opacity .35s ease,visibility .35s ease;
+}
+.africanex-whatsapp:hover{transform:scale(1.06)}
+.africanex-whatsapp .wa-label{position:absolute;right:50px;white-space:nowrap;padding:6px 8px;border-radius:8px;background:#111;border:1px solid #292929;color:#fff;font:700 9px Arial;opacity:0;pointer-events:none;transition:.2s}
+.africanex-whatsapp:hover .wa-label{opacity:1}
+
+.africanex-donation{
+ position:fixed;left:14px;bottom:14px;width:190px;padding:10px;border:1px solid rgba(245,196,0,.3);
+ border-radius:11px;background:rgba(12,12,12,.78);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.4);
+ backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .35s ease,visibility .35s ease;
+}
+.africanex-donation .donation-title{color:#f5c400;font-size:10px;font-weight:900;margin-bottom:3px}
+.africanex-donation .donation-text{color:#aaa;font-size:8px;line-height:1.35;margin-bottom:7px}
+.africanex-donation .donation-button{display:flex;align-items:center;justify-content:center;padding:6px 8px;border-radius:7px;background:#f5c400;color:#050505;text-decoration:none;font-size:9px;font-weight:900}
+.africanex-donation .donation-note{text-align:center;margin-top:4px;color:#666;font-size:7px}
+
+.africanex-float-hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+@media(max-width:600px){
+ .africanex-coming-soon{right:8px;bottom:8px;padding:7px 9px}
+ .africanex-coming-soon .ac-title{font-size:9px}.africanex-coming-soon .ac-phones{font-size:6px;max-width:185px;white-space:normal}
+ .africanex-whatsapp{right:9px;bottom:56px;width:39px;height:39px;font-size:19px}.africanex-whatsapp .wa-label{display:none}
+ .africanex-donation{left:8px;bottom:8px;width:155px;padding:8px}.africanex-donation .donation-title{font-size:9px}.africanex-donation .donation-text{font-size:7px}.africanex-donation .donation-button{font-size:8px;padding:5px}
+}
+</style>
+
+</head>
+
+
+<body>
+
+<!-- AFRICANEX UG SMALL FLOATING WIDGETS -->
+<div class="africanex-donation" aria-label="Support AFRICANEX Movies">
+  <div class="donation-title">❤️ Support AFRICANEX MOVIES</div>
+  <div class="donation-text">Help us build and improve the AFRICANEX MOVIES project.</div>
+  <a class="donation-button" href="https://pay.iotec.io/p/02603750" target="_blank" rel="noopener noreferrer">💳 Donate via IoTec</a>
+  <div class="donation-note">Secure payment via IoTec</div>
+</div>
+<div class="africanex-coming-soon" aria-label="AFRICANEX MOVIES coming soon">
+  <span class="ac-dot"></span><span class="ac-text"><span class="ac-small">COMING SOON</span><span class="ac-title">AFRICANEX MOVIES</span><span class="ac-phones">+256 771 174 619 · +256 740 217 802 · +256 790 161 683</span></span>
+</div>
+<a class="africanex-whatsapp" href="https://wa.me/256740217802" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp AFRICANEX UG">💬<span class="wa-label">WhatsApp +256 740 217 802</span></a>
+
+<!-- ========================= MOVIE PLAYER ========================= -->
+<div class="player-modal" id="playerModal" onclick="closePlayerOutside(event)">
+  <div class="player-box">
+    <div class="player-top">
+      <h3 class="player-title" id="playerTitle">Movie Player</h3>
+      <button class="close-player" onclick="closePlayer()" aria-label="Close">×</button>
+    </div>
+    <div class="video-wrap" id="videoWrap">
+      <div class="player-message"><div><strong>Loading player...</strong>Please wait.</div></div>
+    </div>
+  </div>
+</div>
+
+
+
+<section class="movies-section">
+
+<div class="movies-container">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="movies-header">
+
+<div>
+
+<div class="brand-label">
+AFRICANEX UG
+</div>
+
+<h1>Latest Movies</h1>
+
+<p>
+Discover movies and choose what you want to watch.
+</p>
+
+</div>
+
+
+<div class="search-box">
+
+<span class="search-icon">
+🔍
+</span>
+
+<input
+    type="text"
+    id="movieSearch"
+    placeholder="Search movies..."
+    oninput="searchMovies()"
+>
+
+</div>
+
+</div>
+
+<!-- =========================
+     TRANSLATED MOVIES POPUP TRIGGER
+========================= -->
+<div class="translated-trigger-wrap">
+  <button class="translated-trigger" type="button" onclick="openTranslatedModal()">
+    🌍 <span>Translated Movies</span>
+    <small>Tap to browse languages</small>
+  </button>
+</div>
+
+<!-- =========================
+     TRANSLATED MOVIES POPUP
+========================= -->
+<div class="translated-modal" id="translatedModal" onclick="closeTranslatedOutside(event)">
+  <div class="translated-modal-box">
+    <div class="translated-modal-head">
+      <div>
+        <span class="section-label">AFRICANEX UG</span>
+        <h2>Translated Movies</h2>
+        <p>Browse movies by language.</p>
+      </div>
+      <button class="translated-close" type="button" onclick="closeTranslatedModal()">×</button>
+    </div>
+
+    <div class="categories translated-language-buttons" id="languageButtons">
+      <button class="category active" onclick="loadTranslatedMovies('all',this)">All</button>
+      <button class="category" onclick="loadTranslatedMovies('lg',this)">🇺🇬 Luganda</button>
+      <button class="category" onclick="loadTranslatedMovies('fr',this)">French</button>
+      <button class="category" onclick="loadTranslatedMovies('es',this)">Spanish</button>
+      <button class="category" onclick="loadTranslatedMovies('ar',this)">Arabic</button>
+      <button class="category" onclick="loadTranslatedMovies('ko',this)">Korean</button>
+      <button class="category" onclick="loadTranslatedMovies('hi',this)">Hindi</button>
+    </div>
+
+    <div class="movie-grid translated-grid" id="translatedGrid">
+      <div class="loading"><div class="spinner"></div>Loading translated movies...</div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+     CATEGORIES
+========================= -->
+
+<div class="categories">
+
+<button
+    class="category active"
+    onclick="loadMovies('popular',this)">
+    Popular
+</button>
+
+<button
+    class="category"
+    onclick="loadMovies('now_playing',this)">
+    Now Playing
+</button>
+
+<button
+    class="category"
+    onclick="loadMovies('top_rated',this)">
+    Top Rated
+</button>
+
+<button
+    class="category"
+    onclick="loadMovies('upcoming',this)">
+    Upcoming
+</button>
+
+</div>
+
+
+<!-- =========================
+     MOVIES
+========================= -->
+
+<div
+    class="movie-grid"
+    id="movieGrid">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Loading real movies...
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     TMDB ATTRIBUTION
+========================= -->
+
+
+
+
+</div>
+
+</section>
+
+
+
+<script>
+
+function openTranslatedModal(){
+  const modal=document.getElementById("translatedModal");
+  modal.classList.add("show");
+  document.body.style.overflow="";
+  const grid=document.getElementById("translatedGrid");
+  if(!grid.dataset.loaded){ loadTranslatedMovies("all"); grid.dataset.loaded="1"; }
+}
+function closeTranslatedModal(){
+  document.getElementById("translatedModal").classList.remove("show");
+  document.body.style.overflow="";
+}
+function closeTranslatedOutside(event){
+  if(event.target.id==="translatedModal") closeTranslatedModal();
+}
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape") closeTranslatedModal();
+});
+
+/* ================= TRANSLATED MOVIES ================= */
+const translatedLanguages={all:"lg|fr|es|ar|ko|hi",lg:"lg",fr:"fr",es:"es",ar:"ar",ko:"ko",hi:"hi"};
+async function loadTranslatedMovies(lang="all",button=null){
+ if(button){document.querySelectorAll("#languageButtons .category").forEach(b=>b.classList.remove("active"));button.classList.add("active");}
+ const grid=document.getElementById("translatedGrid");
+ grid.innerHTML='<div class="loading"><div class="spinner"></div>Loading translated movies...</div>';
+ try{
+  const q=translatedLanguages[lang]||translatedLanguages.all;
+  const res=await fetch(`${TMDB_BASE}/discover/movie?api_key=${encodeURIComponent(TMDB_API_KEY)}&language=en-US&sort_by=popularity.desc&with_original_language=${q}&include_adult=false&region=UG&page=1`);
+  if(!res.ok)throw new Error("TMDB request failed");
+  const data=await res.json(); const movies=(data.results||[]).filter(m=>m.poster_path);
+  if(!movies.length){grid.innerHTML='<div class="no-results">🎬<strong>No movies found</strong>Try another language.</div>';return;}
+  grid.innerHTML="";
+  movies.slice(0,20).forEach(movie=>{
+   const title=movie.title||movie.original_title||"Unknown Movie",year=movie.release_date?movie.release_date.substring(0,4):"N/A",poster=IMAGE_BASE+movie.poster_path,rating=movie.vote_average?movie.vote_average.toFixed(1):"N/A",code=(movie.original_language||"").toLowerCase();
+   const card=document.createElement("div");card.className="movie-card";
+   card.innerHTML=`<div class="poster"><img src="${poster}" alt="${escapeHTML(title)}" loading="lazy"><div class="rating">⭐ ${rating}</div><div style="position:absolute;left:8px;bottom:8px;background:#f5c400;color:#000;padding:5px 8px;border-radius:7px;font-size:11px;font-weight:800">${escapeHTML(getLanguageName(code))}</div></div><div class="movie-info"><h3>${escapeHTML(title)}</h3><div class="movie-meta">${year} · ${escapeHTML(getLanguageName(code))} · TMDB ⭐ ${rating}</div><button class="watch-btn" onclick='watchMovie(${JSON.stringify(title)},${movie.id})'>▶ Watch Now</button></div>`;
+   grid.appendChild(card);
+  });
+ }catch(e){console.error(e);grid.innerHTML='<div class="error"><strong>⚠️ Unable to load translated movies</strong>Please check your TMDB connection.</div>';}
+}
+function getLanguageName(c){return({lg:"🇺🇬 Luganda",fr:"French",es:"Spanish",ar:"Arabic",ko:"Korean",hi:"Hindi",ja:"Japanese",zh:"Chinese",de:"German",it:"Italian",pt:"Portuguese",tr:"Turkish"}[c]||c.toUpperCase());}
+
+
+/* =====================================================
+   TMDB SETTINGS
+===================================================== */
+
+/*
+   PUT YOUR TMDB API KEY HERE.
+
+   Example:
+
+   const TMDB_API_KEY =
+       "123456789abcdef";
+
+*/
+
+const TMDB_API_KEY =
+    "dca2719b6d0dadfeb08886bbb30715b8";
+
+/* Watchmode API */
+const WATCHMODE_API_KEY =
+    "BcpcooIlZRn4xCn0H06nv9tPBvibcPa99wnAnYMb";
+const WATCHMODE_BASE = "https://api.watchmode.com/v1";
+const WATCHMODE_REGION = "UG";
+
+const TVMAZE_API_KEY =
+    "7nc7Zx36n8MAztTf3erOCN6qphVYA_eG";
+
+const TVMAZE_BASE =
+    "https://api.tvmaze.com";
+
+
+
+const TMDB_BASE =
+    "https://api.themoviedb.org/3";
+
+
+const IMAGE_BASE =
+    "https://image.tmdb.org/t/p/w500";
+
+
+let currentMovies = [];
+
+
+/* =====================================================
+   LOAD MOVIES
+===================================================== */
+
+async function loadMovies(
+    type = "popular",
+    button = null
+) {
+
+    /* category buttons */
+
+    if (button) {
+
+        document
+            .querySelectorAll(".categories:not(#languageButtons) .category")
+            .forEach(btn => {
+
+                btn.classList.remove("active");
+
+            });
+
+        button.classList.add("active");
+
+    }
+
+
+    const grid =
+        document.getElementById("movieGrid");
+
+
+    grid.innerHTML = `
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Loading real movies...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        let url =
+            `${TMDB_BASE}/movie/${type}`;
+
+
+        const response =
+            await fetch(
+                `${url}?api_key=${encodeURIComponent(TMDB_API_KEY)}&language=en-US&page=1&region=UG`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "TMDB request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        currentMovies =
+            data.results || [];
+
+
+        displayMovies(
+            currentMovies
+        );
+
+
+    } catch(error) {
+
+        console.error(error);
+
+
+        grid.innerHTML = `
+
+            <div class="error">
+
+                <strong>
+                    ⚠️ Unable to load movies
+                </strong>
+
+                Check your TMDB API key and internet connection.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DISPLAY MOVIES
+===================================================== */
+
+function displayMovies(movies) {
+
+    const grid =
+        document.getElementById("movieGrid");
+
+
+    if (!movies.length) {
+
+        grid.innerHTML = `
+
+            <div class="no-results">
+
+                🎬
+
+                <strong>
+                    No movies found
+                </strong>
+
+                Try another search.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    grid.innerHTML = "";
+
+
+    movies.forEach(movie => {
+
+        const title =
+            movie.title ||
+            movie.original_title ||
+            "Unknown Movie";
+
+
+        const year =
+            movie.release_date
+            ? movie.release_date.substring(0,4)
+            : "N/A";
+
+
+        const poster =
+            movie.poster_path
+            ? IMAGE_BASE + movie.poster_path
+            : "";
+
+
+        const rating =
+            movie.vote_average
+            ? movie.vote_average.toFixed(1)
+            : "N/A";
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "movie-card";
+
+
+        card.innerHTML = `
+
+            <div class="poster">
+
+                ${
+                    poster
+
+                    ? `
+
+                    <img
+                        src="${poster}"
+                        alt="${escapeHTML(title)}"
+                        loading="lazy"
+                    >
+
+                    `
+
+                    : `
+
+                    <div style="
+                        height:100%;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        color:#555;
+                        font-size:40px;
+                    ">
+                        🎬
+                    </div>
+
+                    `
+                }
+
+
+                <div class="rating">
+
+                    ⭐ ${rating}
+
+                </div>
+
+            </div>
+
+
+            <div class="movie-info">
+
+                <h3 title="${escapeHTML(title)}">
+
+                    ${escapeHTML(title)}
+
+                </h3>
+
+
+                <div class="movie-meta">
+
+                    ${year}
+                    ·
+                    TMDB ⭐ ${rating}
+
+                </div>
+
+
+                <button
+                    class="watch-btn"
+                    onclick="watchMovie(
+                        ${JSON.stringify(title)},
+                        ${movie.id}
+                    )">
+
+                    ▶ Watch Now
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   SEARCH MOVIES
+===================================================== */
+
+let searchTimer;
+
+
+function searchMovies() {
+
+    const query =
+        document
+        .getElementById("movieSearch")
+        .value
+        .trim();
+
+
+    clearTimeout(searchTimer);
+
+
+    if (!query) {
+
+        loadMovies("popular");
+
+        return;
+
+    }
+
+
+    searchTimer =
+        setTimeout(
+            () => performSearch(query),
+            400
+        );
+
+}
+
+
+async function performSearch(query) {
+
+    const grid =
+        document.getElementById("movieGrid");
+
+
+    grid.innerHTML = `
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Searching...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                `${TMDB_BASE}/search/movie?api_key=${encodeURIComponent(TMDB_API_KEY)}&language=en-US&query=${encodeURIComponent(query)}&page=1&include_adult=false`
+
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Search failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        currentMovies =
+            data.results || [];
+
+
+        displayMovies(
+            currentMovies
+        );
+
+
+    } catch(error) {
+
+        console.error(error);
+
+
+        grid.innerHTML = `
+
+            <div class="error">
+
+                <strong>
+                    Search failed
+                </strong>
+
+                Please try again.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   WATCH MOVIE
+===================================================== */
+
+function watchMovie(movieName, movieId) {
+    localStorage.setItem("selectedMovie", movieName);
+    localStorage.setItem("selectedMovieId", movieId);
+    openMoviePlayer(movieName, movieId);
+}
+
+/* =====================================================
+   WATCHMODE - LEGAL STREAMING OPTIONS
+===================================================== */
+
+async function getWatchmodeSources(movieId) {
+    const headers = {
+        "X-API-Key": WATCHMODE_API_KEY,
+        "Accept": "application/json"
+    };
+
+    // First resolve the TMDB movie ID to a Watchmode title ID.
+    const searchUrl = `${WATCHMODE_BASE}/search/?search_field=tmdb_movie_id&search_value=${encodeURIComponent(movieId)}&types=movie`;
+    const searchResponse = await fetch(searchUrl, { headers });
+
+    if (!searchResponse.ok) {
+        throw new Error(`Watchmode search failed (${searchResponse.status})`);
+    }
+
+    const searchData = await searchResponse.json();
+    const matches = searchData.title_results || [];
+    const match = matches.find(item => String(item.tmdb_id) === String(movieId)) || matches[0];
+
+    if (!match || !match.id) return [];
+
+    // Then retrieve current streaming sources for Uganda.
+    const sourcesUrl = `${WATCHMODE_BASE}/title/${encodeURIComponent(match.id)}/sources/?regions=${WATCHMODE_REGION}`;
+    const sourcesResponse = await fetch(sourcesUrl, { headers });
+
+    if (!sourcesResponse.ok) {
+        throw new Error(`Watchmode sources failed (${sourcesResponse.status})`);
+    }
+
+    const sources = await sourcesResponse.json();
+    return Array.isArray(sources) ? sources : [];
+}
+
+function renderWatchmodeSources(sources) {
+    const box = document.getElementById("watchOptions");
+    if (!box) return;
+
+    if (!sources.length) {
+        box.innerHTML = `
+            <div class="watch-options">
+                <h4>Where to Watch</h4>
+                <div class="watch-empty">No legal streaming provider was found for Uganda.</div>
+            </div>`;
+        return;
+    }
+
+    const unique = [];
+    const seen = new Set();
+
+    sources.forEach(source => {
+        const url = source.web_url || source.android_url || source.ios_url;
+        if (!url || seen.has(`${source.name}|${url}`)) return;
+        seen.add(`${source.name}|${url}`);
+        unique.push({ ...source, url });
+    });
+
+    box.innerHTML = `
+        <div class="watch-options">
+            <h4>Where to Watch in Uganda</h4>
+            ${unique.map(source => `
+                <div class="watch-source">
+                    <span>${escapeHTML(source.name || "Streaming service")}${source.type ? ` · ${escapeHTML(source.type)}` : ""}</span>
+                    <a class="watch-link" href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">Watch →</a>
+                </div>
+            `).join("")}
+        </div>`;
+}
+
+async function loadWatchmodeOptions(movieId) {
+    const box = document.getElementById("watchOptions");
+    if (!box) return;
+
+    box.innerHTML = `
+        <div class="watch-options">
+            <h4>Where to Watch</h4>
+            <div class="watch-loading">Checking legal streaming options...</div>
+        </div>`;
+
+    try {
+        const sources = await getWatchmodeSources(movieId);
+        renderWatchmodeSources(sources);
+    } catch (error) {
+        console.error("Watchmode:", error);
+        box.innerHTML = `
+            <div class="watch-options">
+                <h4>Where to Watch</h4>
+                <div class="watch-error">Streaming availability could not be loaded right now.</div>
+            </div>`;
+    }
+}
+
+/* =====================================================
+   MOVIE PLAYER
+===================================================== */
+
+async function openMoviePlayer(movieName, movieId) {
+    const modal = document.getElementById("playerModal");
+    const title = document.getElementById("playerTitle");
+    const wrap = document.getElementById("videoWrap");
+
+    title.textContent = movieName;
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+
+    // Add Watchmode area below the player.
+    let watchOptions = document.getElementById("watchOptions");
+    if (!watchOptions) {
+        watchOptions = document.createElement("div");
+        watchOptions.id = "watchOptions";
+        wrap.parentNode.appendChild(watchOptions);
+    }
+
+    wrap.innerHTML = `
+        <div class="player-message">
+            <div>
+                <strong>Loading ${escapeHTML(movieName)}...</strong>
+                Finding the official trailer.
+            </div>
+        </div>`;
+
+    loadWatchmodeOptions(movieId);
+
+    try {
+        const response = await fetch(
+            `${TMDB_BASE}/movie/${movieId}/videos?api_key=${encodeURIComponent(TMDB_API_KEY)}&language=en-US`
+        );
+
+        if (!response.ok) throw new Error("TMDB video request failed");
+
+        const data = await response.json();
+        const videos = data.results || [];
+
+        const trailer =
+            videos.find(v => v.site === "YouTube" && v.type === "Trailer" && v.official === true) ||
+            videos.find(v => v.site === "YouTube" && v.type === "Trailer") ||
+            videos.find(v => v.site === "YouTube" && v.type === "Teaser");
+
+        if (!trailer) {
+            wrap.innerHTML = `
+                <div class="player-message">
+                    <div>
+                        <strong>🎬 No trailer available</strong>
+                        This movie does not currently have an available YouTube trailer.
+                    </div>
+                </div>`;
+            return;
+        }
+
+        wrap.innerHTML = `
+            <iframe
+                src="https://www.youtube.com/embed/${encodeURIComponent(trailer.key)}?autoplay=1&rel=0"
+                title="${escapeHTML(movieName)} trailer"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowfullscreen>
+            </iframe>`;
+    } catch (error) {
+        console.error(error);
+        wrap.innerHTML = `
+            <div class="player-message">
+                <div>
+                    <strong>⚠️ Unable to start trailer</strong>
+                    Please check your internet connection and try again.
+                </div>
+            </div>`;
+    }
+}
+
+function closePlayer() {
+    const modal = document.getElementById("playerModal");
+    const wrap = document.getElementById("videoWrap");
+    const watchOptions = document.getElementById("watchOptions");
+    modal.classList.remove("show");
+    document.body.style.overflow = "";
+    wrap.innerHTML = "";
+    if (watchOptions) watchOptions.innerHTML = "";
+}
+
+function closePlayerOutside(event) {
+    if (event.target.id === "playerModal") closePlayer();
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closePlayer();
+});
+
+/* =====================================================
+   SECURITY / HTML ESCAPE
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/* =====================================================
+   TVMAZE — SHOW / EPISODE LOOKUP
+   TVmaze supplies show and episode metadata. It does
+   not host the actual movie/video files.
+===================================================== */
+
+async function tvmazeSearchShows(query) {
+    if (!query || !query.trim()) return [];
+
+    const url =
+        `${TVMAZE_BASE}/search/shows?q=${encodeURIComponent(query.trim())}`;
+
+    const response = await fetch(url, {
+        headers: {
+            "Accept": "application/json",
+            "X-API-Key": TVMAZE_API_KEY
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`TVmaze request failed (${response.status})`);
+    }
+
+    const data = await response.json();
+
+    return Array.isArray(data)
+        ? data.map(item => item.show).filter(Boolean)
+        : [];
+}
+
+async function tvmazeGetEpisodes(showId) {
+    const response = await fetch(
+        `${TVMAZE_BASE}/shows/${encodeURIComponent(showId)}/episodes`,
+        {
+            headers: {
+                "Accept": "application/json",
+                "X-API-Key": TVMAZE_API_KEY
+            }
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`TVmaze episode request failed (${response.status})`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+}
+
+async function tvmazeGetShow(showId) {
+    const response = await fetch(
+        `${TVMAZE_BASE}/shows/${encodeURIComponent(showId)}`,
+        {
+            headers: {
+                "Accept": "application/json",
+                "X-API-Key": TVMAZE_API_KEY
+            }
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`TVmaze show request failed (${response.status})`);
+    }
+
+    return await response.json();
+}
+
+/*
+   Optional helper:
+   Look up a TVmaze show by title and return its metadata.
+*/
+async function findTVmazeShow(title) {
+    try {
+        const shows = await tvmazeSearchShows(title);
+        return shows.length ? shows[0] : null;
+    } catch (error) {
+        console.error("TVmaze:", error);
+        return null;
+    }
+}
+
+/* =====================================================
+   START
+===================================================== */
+
+loadMovies("popular");
+loadTranslatedMovies("all");
+
+</script>
+
+<footer style="
+    text-align:center;
+    padding:25px 15px;
+    color:#777;
+    font-size:12px;
+    border-top:1px solid #191919;
+    background:#050505;
+">
+    © 2026 Powered by AFRICANEX UG<div id="tvmazeStatus" style="margin-top:6px;color:#555;font-size:10px;">TVmaze connected for TV show & episode metadata</div>
+</footer>
+
+
+<script>
+/* AFRICANEX floating widgets: 2 minutes visible, 3 minutes hidden, repeating. */
+(function(){
+  const selectors=['.africanex-coming-soon','.africanex-whatsapp','.africanex-donation'];
+  function items(){return selectors.flatMap(s=>Array.from(document.querySelectorAll(s)));}
+  function show(v){items().forEach(el=>el.classList.toggle('africanex-float-hidden',!v));}
+  function cycle(){
+    show(true);
+    setTimeout(function(){show(false);setTimeout(cycle,180000);},120000);
+  }
+  cycle();
+})();
+</script>
+
+</body>
+</html>
